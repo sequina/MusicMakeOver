@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="css/main.css">
+            <!-- <link rel="stylesheet" type="text/css" href="styles/main.css"> -->
+      </head>
+
+    <body>
+<!--
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <! Brand and toggle get grouped for better mobile display -->
+       <!--    <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Brand</a>
+          </div> -->
+
+   <!--  <div class = "container-fluid">
+      <div class = "row">
+        <div class="col-sm-4">
+
+
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            </button>
+        </div> -->
+      <section ng-app = "MusicApp">
+        <section ng-controller = "MusicCtrl">
+
+          <div>
+              Dropdown
+            <select
+              ng-model="musicList"
+              ng-options="value.name group by value.complete for value in artists">
+          </select>
+          </div>
+
+        <div>
+            <input type="text" ng-modal="searchText">
+              <ul ng-repeat="artist in artists | filter:seachText">
+                <li>{{artist.name}}<button ng-click="killMusicArtists(artist)">X</button></li>
+              </ul>
+          </div>
+        </section>
+      </section>
+
+   <!--      </div> -->
+        <!-- <div class="col-sm-8">
+          <div id ="songList"></div> -->
+       <!--  </div>
+        </div>
+      </div> -->
+
+    <script data-main="javascripts/entry" src="lib/bower_components/angular/angular.min.js"></script>
+   <script data-main="javascripts/main" src="javascripts/main.js"></script>
+
+  </body>
+
+</html>
