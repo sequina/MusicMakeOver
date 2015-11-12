@@ -1,0 +1,43 @@
+{
+    "songs":  [
+        {
+            "id": 1,
+            "title": "Blank Space",
+            "artist": "Taylor Swift",
+            "album": "1989"
+        },
+        {
+            "id": 2,
+            "title": "Can't feel my Face",
+            "artist": "The Weekend",
+            "album": "Unknown"
+        },
+        {
+            "id": 3,
+            "title": "Cool for the Summer",
+            "artist": "Demi Lovato",
+            "album": "Cool for Summer"
+        },
+        {
+            "id": 4,
+            "title": "Good Girl",
+            "artist": "Carrie Underwood",
+            "album": "Blown Away"
+        },
+
+
+       {
+            "id": 5,
+            "title": "Bad Blood",
+            "artist": "Taylor Swift",
+            "album": "1989"
+        },
+
+        {
+            "id": 6,
+            "title": "Survivor",
+            "artist": "Destiny's Child",
+            "album": "Destiny Child"
+        }
+    ]
+}

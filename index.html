@@ -5,7 +5,7 @@
             <!-- <link rel="stylesheet" type="text/css" href="styles/main.css"> -->
       </head>
 
-    <body>
+    <body ng-app="MusicApp">
 <!--
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -30,24 +30,26 @@
             </button>
         </div> -->
       <section ng-app = "MusicApp">
-        <section ng-controller = "MusicCtrl">
+        <section>
 
-          <div>
-              Dropdown
+          <!-- <div>
+              Artist Dropdown
             <select
               ng-model="musicList"
               ng-options="value.name group by value.complete for value in artists">
           </select>
-          </div>
+          </div> -->
 
         <div>
             <input type="text" ng-modal="searchText">
               <ul ng-repeat="artist in artists | filter:seachText">
                 <li>{{artist.name}}<button ng-click="killMusicArtists(artist)">X</button></li>
               </ul>
+              <div ng-view></div>
           </div>
         </section>
       </section>
+
 
    <!--      </div> -->
         <!-- <div class="col-sm-8">
@@ -57,6 +59,7 @@
       </div> -->
 
     <script data-main="javascripts/entry" src="lib/bower_components/angular/angular.min.js"></script>
+    <script src="lib/bower_components/angular-route/angular-route.js"></script>
    <script data-main="javascripts/main" src="javascripts/main.js"></script>
 
   </body>
