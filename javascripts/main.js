@@ -1,4 +1,4 @@
-var app = angular.module("MusicApp", ["ngRoute"]);
+var app = angular.module("MusicApp", ["ngRoute"], ["firebase"]);
 
 app.config (['$routeProvider',
   function($routeProvider) {
@@ -13,14 +13,19 @@ app.config (['$routeProvider',
         })
     }]);
 
+//loading songs
+
 app.controller("SongListCtrl",
   // Notice the new syntax. Since I'm including one of my own dependencies
   // then I need to include each one in array of strings (just like RequireJS)
   // and have a matching argument in the callback function.
   [
-    "$scope", "$q", "$http",
-    function($scope, $q,$http) {
-      $scope.songList = [];
+    "$scope", "$q", "$http","song_service","$firebaseArray",
+    function($scope, $q,$http,$firebaseArray) {
+
+      var ref = new Firebase("https://music-application.firebaseio.com");
+
+      $scope.songList = $firebaseArray[ref];
       // $scope.song_list = simple_songs.getSongs();  // Returns all songs
         return $q(function(resolve, reject) {
         $http
@@ -37,15 +42,44 @@ app.controller("SongListCtrl",
     }
   ]
 );
-app.controller("SongCtrl",
+app.controller("artistCtrl",
   [
-    "$scope",
-    function($scope) {
+    "$scope", "$q", "$http","song_service",
+    function($scope, $q,$http) {
+      $scope.songList = [];
       // $scope.song_list = simple_songs.getSongs();  // Returns all songs
-
+        return $q(function(resolve, reject) {
+        // $http
+        //   .get('./javascripts/songs.json')
+        //   .success(
+        //     function(myArtists) {
+        //       $scope.songList = myArtists.songs;
+        //       resolve(myArtists.songs);
+        //     },function(error) {
+        //       reject(error);
+            }
+          );
+      });
     }
   ]
 );
+
+app.factory("song_service", function($http,$q) {
+  var getSongData = function() {
+    return $q(function(resolve,reject) {
+
+    }
+    $http
+    .get('./data/songs.json')
+    .success(
+      function(objectFromJSONFile) {
+        resolve(objectFromJSONFile.songs);
+        },function(error){
+        reject(error);
+      }
+    };
+  };
+};
 
 
 
