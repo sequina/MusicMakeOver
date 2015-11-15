@@ -1,4 +1,4 @@
-var app = angular.module("MusicApp", ["ngRoute"], ["firebase"]);
+var app = angular.module("MusicApp", ["ngRoute", "firebase"]);
 
 app.config (['$routeProvider',
   function($routeProvider) {
@@ -9,102 +9,80 @@ app.config (['$routeProvider',
     })
     .when('/songs/new', {
       templateUrl: 'partials/song-form.html',
-      controller: 'SongCtrl'
+      controller: 'AddSongCtrl'
         })
     }]);
 
 //loading songs
-
 app.controller("SongListCtrl",
-  // Notice the new syntax. Since I'm including one of my own dependencies
-  // then I need to include each one in array of strings (just like RequireJS)
-  // and have a matching argument in the callback function.
-  [
-    "$scope", "$q", "$http","song_service","$firebaseArray",
-    function($scope, $q,$http,$firebaseArray) {
-
-      var ref = new Firebase("https://music-application.firebaseio.com");
-
-      $scope.songList = $firebaseArray[ref];
-      // $scope.song_list = simple_songs.getSongs();  // Returns all songs
-        return $q(function(resolve, reject) {
-        $http
-          .get('./javascripts/songs.json')
-          .success(
-            function(mySongs) {
-              $scope.songList = mySongs.songs;
-              resolve(mySongs.songs);
-            },function(error) {
-              reject(error);
-            }
-          );
-      });
-    }
-  ]
-);
-app.controller("artistCtrl",
-  [
-    "$scope", "$q", "$http","song_service",
-    function($scope, $q,$http) {
-      $scope.songList = [];
-      // $scope.song_list = simple_songs.getSongs();  // Returns all songs
-        return $q(function(resolve, reject) {
-        // $http
-        //   .get('./javascripts/songs.json')
-        //   .success(
-        //     function(myArtists) {
-        //       $scope.songList = myArtists.songs;
-        //       resolve(myArtists.songs);
-        //     },function(error) {
-        //       reject(error);
-            }
-          );
-      });
-    }
-  ]
-);
-
-app.factory("song_service", function($http,$q) {
-  var getSongData = function() {
-    return $q(function(resolve,reject) {
-
-    }
-    $http
-    .get('./data/songs.json')
-    .success(
-      function(objectFromJSONFile) {
-        resolve(objectFromJSONFile.songs);
-        },function(error){
-        reject(error);
+   [
+    "$scope",
+    "$firebaseArray",
+      function($scope, $firebaseArray) {
+        var ref = new Firebase("https://music-application.firebaseio.com/songs");
+        $scope.songList = $firebaseArray(ref);
+        $scope.newSong = {};
       }
-    };
-  };
-};
+   ]
+)
 
 
+app.controller("AddSongCtrl",["$scope","$firebaseArray",
+      function($scope, $firebaseArray) {
+        var fireBaseRef = new Firebase("https://music-application.firebaseio.com/songs")
+
+        $scope.songList = $firebaseArray(fireBaseRef);
+        $scope.newSong = { title: "", album: "", year: "", artist: ""};
+
+          $scope.addSong = function() {
+            $scope.songs.$add({
+              artist: $scope.newSong.artist,
+              name: $scope.newSong.title,
+              album: $scope.newSong.album
+              });
+          }
+}]);
 
 
+// app.factory("song_service", function($http,$q) {
+//   var getSongData = [];
 
+//   function init() {
+//     return $q(function(resolve, reject) {
 
-// app.controller("SongListCtrl", function($scope, $rootScope,$q,$http) {
-//     $scope.title = "Welcome to your Music App";
-//     $rootScope.hello ="i am everywhere";
-
-//     // $scope.artists = [
-//     //   {name:"Taylor Swift"},
-//     //   {name:"The Weekend"},
-//     //   {name:"Demi Lovato"},
-//     //   {name:"Carrie Underwood"},
-//     //   {name:"Rihanna"},
-//     //   {name:"Eminem"},
-//     //   {name:"Christina Aguilera"}
-//     // ];
-
-// $scope.killMusicArtists=function(artist) {
-//       var musicIndex = $scope.artists.indexOf(artist);
-
-//     if(musicIndex>=0) {
-//       $scope.artists.splice(musicIndex, 1)
+//     $http
+//     .get('./data/songs.json')
+//     .success(
+//       function(objectFromJSONFile) {
+//         getSongData = objectFromJSONFile.songs;
+//         resolve(getSongData)
+//         },
+//         function(error) {
+//         reject(error);
+//       });
 //     };
-//   };
-// })
+//   });
+// });
+
+//   init();
+
+// function grabSongs () {
+//   return getSongData;
+// };
+
+// function grabSingleSong(id) {
+//   return getSongData.filter(function(oneSong) {
+//     return song.id === id;
+//   })[0];
+// };
+
+// function addSong(songObj) {
+//   getSongData.push(songObj);
+//   return getSongData;
+// };
+
+  // return {
+  //   grabSongs: grabSongs,
+  //   grabSingleSong: grabSingleSong,
+  //   addSong: addSong
+  // };
